@@ -293,6 +293,7 @@ SRC_URI="
 "
 S="${WORKDIR}"
 EGIT_CHECKOUT_DIR="${S}"
+EGIT_SUBMODULES=()
 
 LICENSE="MPL-2.0"
 # Dependent crate licenses
@@ -323,12 +324,36 @@ src_unpack() {
 
 	use grammar || return
 
-	# prepare the grammars, it will fetch a little while...
-	# local EGIT_CLONE_TYPE="shallow"
-	tomlq -r '.grammar[] | [.source.git, .source.rev, .source.subpath // .name] | @tsv' "${S}/languages.toml" |
-		while read url ref subpath; do
-			git-r3_fetch "$url" "$ref"
-			git-r3_checkout "$url" "${S}/runtime/grammars/sources/$subpath"
+	# prepare the grammars, it will fetch a little while... takes about ~3GiB, price of hacking
+	# however, the git-r3 seems not work very well with '--depth 1', leaving useless commits
+	# TODO: maybe try https://stackoverflow.com/a/7937916 to shallow the repository after cloned?
+	local clone_type="$EGIT_CLONE_TYPE"
+
+	tomlq -r '.grammar[] | [.source.git, .source.rev, .name] | @tsv' "${S}/languages.toml" |
+		while read url rev name; do
+			einfo "cloning tree-sitter: ${name}"
+
+			local local_id=""
+			local EGIT_CLONE_TYPE="$clone_type"
+
+			# for some revision that's not in the main branch, we should do a full clone instead
+			case "$name" in
+			"perl"|"pod"|"swift"|"sql"|"vhdl"|"unison")
+				EGIT_CLONE_TYPE="mirror"
+				;;
+			"php-only")
+				local_id="${CATEGORY}/${PN}/${SLOT%/*}/php-only"
+				;;
+			esac
+
+			# try to determine if revision is presented, if so, skip it
+			local -x GIT_DIR  # the 'git' uses, so we need no more 'cd'
+			_git-r3_set_gitdir "$url"
+			if [[ "$local_id" != "" ]] || ! git rev-parse -q --verify "$rev^{commit}"; then
+				git-r3_fetch "$url" "$rev" "$local_id"
+			fi
+
+			git-r3_checkout "$url" "${S}/runtime/grammars/sources/$name" "$local_id"
 		done
 }
 
