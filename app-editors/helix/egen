@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -xeu
+
+HELIX_DIR="$1/helix-term"
+EBUILD="helix-9999.ebuild"
+
+# Update helix:
+pushd "$HELIX_DIR"
+git pull --rebase
+popd
+
+# Update ebuild:
+cd "$(dirname "${BASH_SOURCE[0]}")"
+sudo pycargoebuild -i "$EBUILD" "$HELIX_DIR"
+sudo chown "$(id -u):$(id -g)" "$EBUILD"
+ebuild "$EBUILD" manifest

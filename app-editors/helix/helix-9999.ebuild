@@ -26,7 +26,7 @@ CRATES="
 	bumpalo@3.16.0
 	bytes@1.7.1
 	cassowary@0.3.0
-	cc@1.1.21
+	cc@1.1.30
 	cfg-if@1.0.0
 	chardetng@0.1.17
 	chrono@0.4.38
@@ -57,10 +57,10 @@ CRATES="
 	flate2@1.0.33
 	fnv@1.0.7
 	form_urlencoded@1.2.1
-	futures-core@0.3.30
-	futures-executor@0.3.30
-	futures-task@0.3.30
-	futures-util@0.3.30
+	futures-core@0.3.31
+	futures-executor@0.3.31
+	futures-task@0.3.31
+	futures-util@0.3.31
 	getrandom@0.2.15
 	gimli@0.29.0
 	gix-actor@0.32.0
@@ -128,7 +128,7 @@ CRATES="
 	jiff@0.1.13
 	js-sys@0.3.70
 	kstring@2.0.2
-	libc@0.2.158
+	libc@0.2.159
 	libloading@0.8.5
 	libredox@0.1.3
 	linux-raw-sys@0.4.14
@@ -144,7 +144,7 @@ CRATES="
 	num-traits@0.2.19
 	num_cpus@1.16.0
 	object@0.36.4
-	once_cell@1.19.0
+	once_cell@1.20.2
 	open@5.3.0
 	parking_lot@0.12.3
 	parking_lot_core@0.9.10
@@ -163,10 +163,10 @@ CRATES="
 	rayon-core@1.12.1
 	rayon@1.10.0
 	redox_syscall@0.5.3
-	regex-automata@0.4.7
+	regex-automata@0.4.8
 	regex-cursor@0.1.4
-	regex-syntax@0.8.4
-	regex@1.10.6
+	regex-syntax@0.8.5
+	regex@1.11.0
 	ropey@1.6.1
 	rustc-demangle@0.1.24
 	rustix@0.38.37
@@ -194,7 +194,7 @@ CRATES="
 	static_assertions@1.1.0
 	str_indices@0.4.3
 	syn@2.0.77
-	tempfile@3.12.0
+	tempfile@3.13.0
 	termini@1.0.0
 	textwrap@0.16.1
 	thiserror-impl@1.0.64
