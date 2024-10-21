@@ -117,8 +117,8 @@ src_install() {
 	# Replace the entrance with AUR version:
 	BRAVE_LINK="usr/bin/brave-browser-stable"
 	test -L "$BRAVE_LINK" || die
-	export BRAVE_EXEC="$(realpath "$BRAVE_LINK")"
+	BRAVE_EXEC="$(realpath "$BRAVE_LINK")"
 	unlink "$BRAVE_LINK" || die
-	envsubst '${BRAVE_EXEC}' < "${FILESDIR}/brave-bin.sh" > "$BRAVE_LINK"
+	BRAVE_EXEC="${BRAVE_EXEC}" envsubst '${BRAVE_EXEC}' < "${FILESDIR}/brave-bin.sh" > "$BRAVE_LINK"
 	chmod +x "${BRAVE_LINK}" || die
 }
